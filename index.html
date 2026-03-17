@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<title>ShopList Kerala</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f4f6fb;--white:#fff;--s1:#f0f2f9;--s2:#e8ebf5;
+  --border:#e0e5f2;--border2:#eef1f9;
+  --blue:#3b6ef5;--blue-d:rgba(59,110,245,.1);--blue-l:#5b87ff;
+  --green:#16a34a;--green-d:rgba(22,163,74,.1);--green-l:#22c55e;
+  --red:#dc2626;--red-d:rgba(220,38,38,.1);
+  --amber:#d97706;--amber-d:rgba(217,119,6,.1);
+  --purple:#7c3aed;--purple-d:rgba(124,58,237,.1);
+  --teal:#0d9488;--teal-d:rgba(13,148,136,.1);
+  --orange:#ea580c;--orange-d:rgba(234,88,12,.1);
+  --pink:#be185d;--pink-d:rgba(190,24,93,.1);
+  --brown:#92400e;--brown-d:rgba(146,64,14,.1);
+  --text:#1a2035;--text2:#6b7591;--text3:#b0b8d0;
+  --r:13px;--r-sm:8px;--sw:230px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+input,select,textarea,button{font-family:inherit;}
+button{cursor:pointer;border:none;background:none;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:var(--s2);border-radius:99px;}
+.app{display:flex;min-height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sw);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 0;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform .3s ease;box-shadow:2px 0 16px rgba(0,0,0,.04);}
+.logo{padding:0 16px 18px;border-bottom:1px solid var(--border);margin-bottom:12px;}
+.logo-name{font-size:18px;font-weight:800;color:var(--blue);display:flex;align-items:center;gap:7px;}
+.logo-sub{font-size:10px;color:var(--text3);margin-top:2px;font-weight:500;}
+.nav-lbl{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;padding:0 16px;margin-bottom:5px;}
+.nav-sec{padding:0 8px;margin-bottom:8px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r-sm);cursor:pointer;font-size:12.5px;font-weight:600;color:var(--text2);transition:all .15s;margin-bottom:2px;}
+.nav-item:hover{color:var(--text);background:var(--s1);}
+.nav-item.active{color:var(--blue);background:var(--blue-d);}
+.nav-icon{font-size:15px;width:19px;text-align:center;flex-shrink:0;}
+.nav-count{margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px;}
+.nav-count.blue{background:var(--blue);color:#fff;}
+.nav-count.red{background:var(--red);color:#fff;}
+.nav-count.amber{background:var(--amber);color:#fff;}
+.list-ni{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r-sm);cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:all .15s;margin-bottom:2px;}
+.list-ni:hover{background:var(--s1);color:var(--text);}
+.list-ni.active{background:var(--blue-d);color:var(--blue);font-weight:600;}
+.l-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.l-cnt{margin-left:auto;font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);}
+.new-list-btn{margin:6px 8px 0;display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:var(--r-sm);border:1px dashed var(--border);cursor:pointer;font-size:12px;color:var(--text3);font-weight:600;transition:all .2s;}
+.new-list-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-d);}
+.sidebar-foot{margin-top:auto;padding:12px 16px;border-top:1px solid var(--border);}
+.sf{font-size:10px;color:var(--text3);}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{padding:13px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);position:sticky;top:0;z-index:50;}
+.tb-left{display:flex;align-items:center;gap:10px;}
+.pg-title{font-size:16px;font-weight:800;color:var(--text);}
+.tb-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.btn-p{background:var(--blue);color:#fff;padding:8px 15px;border-radius:var(--r-sm);font-size:12.5px;font-weight:700;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.btn-p:hover{background:var(--blue-l);transform:translateY(-1px);box-shadow:0 6px 18px rgba(59,110,245,.3);}
+.btn-g{background:var(--s1);border:1px solid var(--border);color:var(--text2);padding:7px 12px;border-radius:var(--r-sm);font-size:12px;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.btn-g:hover{border-color:var(--blue);color:var(--blue);}
+.btn-wa{background:#25d366;color:#fff;padding:7px 12px;border-radius:var(--r-sm);font-size:12px;font-weight:700;display:flex;align-items:center;gap:5px;transition:all .2s;}
+.btn-wa:hover{background:#1db954;}
+.hamburger{display:none;color:var(--text);font-size:20px;padding:4px;}
+
+/* ── PAGES ── */
+.content{padding:16px 22px;flex:1;}
+.page{display:none;}.page.active{display:block;animation:pFade .2s ease;}
+@keyframes pFade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* ══════════════════════════════════════
+   CATALOG PAGE
+══════════════════════════════════════ */
+.catalog-search-row{display:flex;gap:8px;margin-bottom:16px;align-items:center;}
+.catalog-search{flex:1;background:var(--white);border:1.5px solid var(--border);color:var(--text);padding:10px 14px;border-radius:var(--r-sm);font-size:13px;outline:none;transition:all .2s;font-weight:500;}
+.catalog-search:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-d);}
+.catalog-search::placeholder{color:var(--text3);}
+.list-selector{background:var(--white);border:1.5px solid var(--border);color:var(--text);padding:9px 12px;border-radius:var(--r-sm);font-size:12.5px;outline:none;font-weight:600;min-width:160px;}
+.list-selector:focus{border-color:var(--blue);}
+
+.catalog-section{margin-bottom:22px;}
+.cat-section-hd{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);margin-bottom:8px;border-left:4px solid;}
+.cat-section-title{font-size:14px;font-weight:800;flex:1;}
+.cat-section-ml{font-size:12px;font-weight:500;opacity:.75;}
+.cat-section-count{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;margin-left:auto;}
+
+/* ITEM GRID */
+.item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;}
+.catalog-item{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:12px;cursor:pointer;transition:all .2s;position:relative;display:flex;flex-direction:column;gap:4px;}
+.catalog-item:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
+.catalog-item.selected{border-color:var(--green-l);background:var(--green-d);}
+.ci-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;}
+.ci-names{flex:1;min-width:0;}
+.ci-en{font-size:13px;font-weight:700;color:var(--text);line-height:1.3;}
+.ci-ml{font-size:11.5px;color:var(--text2);margin-top:1px;}
+.ci-cat-tag{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:99px;flex-shrink:0;}
+.ci-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.catalog-item.selected .ci-check{background:var(--green-l);border-color:var(--green-l);}
+.catalog-item.selected .ci-check::after{content:'✓';font-size:11px;color:#fff;font-weight:700;}
+.ci-inputs{display:none;margin-top:8px;gap:6px;}
+.catalog-item.selected .ci-inputs{display:flex;}
+.ci-qty{flex:1;background:var(--s1);border:1.5px solid var(--border);color:var(--text);padding:6px 9px;border-radius:6px;font-size:12px;outline:none;font-weight:600;width:60px;}
+.ci-qty:focus{border-color:var(--blue);}
+.ci-unit{background:var(--s1);border:1.5px solid var(--border);color:var(--text);padding:6px 8px;border-radius:6px;font-size:11px;outline:none;flex:1;}
+.ci-price-row{display:none;gap:6px;margin-top:5px;}
+.catalog-item.selected .ci-price-row{display:flex;}
+.ci-price{flex:1;background:var(--s1);border:1.5px solid var(--border);color:var(--text);padding:6px 9px;border-radius:6px;font-size:12px;outline:none;font-weight:600;}
+.ci-price:focus{border-color:var(--blue);}
+.ci-pri{background:var(--s1);border:1.5px solid var(--border);color:var(--text);padding:6px 8px;border-radius:6px;font-size:11px;outline:none;}
+.ci-add-btn{background:var(--green-l);color:#fff;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:700;transition:all .2s;width:100%;margin-top:6px;display:none;}
+.catalog-item.selected .ci-add-btn{display:block;}
+.ci-add-btn:hover{background:var(--green);}
+
+/* SUBTYPE SECTION */
+.subtype-section{margin-bottom:8px;}
+.sub-hd{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;padding:0 2px;display:flex;align-items:center;gap:8px;}
+.sub-hd::after{content:'';flex:1;height:1px;background:var(--border2);}
+
+/* ADD TO LIST FLOAT */
+.add-to-list-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:12px 24px;border-radius:99px;font-size:13px;font-weight:700;display:none;align-items:center;gap:10px;box-shadow:0 8px 30px rgba(59,110,245,.4);z-index:200;cursor:pointer;transition:all .2s;}
+.add-to-list-bar.show{display:flex;}
+.add-to-list-bar:hover{background:var(--blue-l);transform:translateX(-50%) translateY(-2px);}
+.atlb-count{background:rgba(255,255,255,.25);padding:3px 9px;border-radius:99px;font-family:'DM Mono',monospace;font-size:12px;}
+
+/* ══════════════════════════════════════
+   LIST DETAIL PAGE
+══════════════════════════════════════ */
+.detail-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+.dh-info{}
+.dh-title{font-size:18px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px;}
+.dh-meta{font-size:12px;color:var(--text2);margin-top:3px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.dh-acts{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* BUDGET STRIP */
+.bstrip{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.bs-s{text-align:center;}
+.bs-v{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;}
+.bs-l{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.bs-v.blue{color:var(--blue);}
+.bs-v.green{color:var(--green);}
+.bs-v.amber{color:var(--amber);}
+.bs-v.red{color:var(--red);}
+.bs-v.purple{color:var(--purple);}
+.bs-div{width:1px;height:32px;background:var(--border);}
+.bs-bar{flex:1;min-width:120px;}
+.bs-bl{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:4px;}
+.bs-trk{height:5px;background:var(--s1);border-radius:99px;overflow:hidden;}
+.bs-fill{height:100%;border-radius:99px;transition:width .8s;}
+
+/* BILLS SECTION */
+.bills-section{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;}
+.bills-title{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;justify-content:space-between;}
+.bills-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.bill-thumb{position:relative;display:inline-block;}
+.bill-img{width:60px;height:70px;border-radius:8px;object-fit:cover;border:1.5px solid var(--border);cursor:pointer;transition:all .2s;}
+.bill-img:hover{transform:scale(1.05);border-color:var(--blue);}
+.bill-pdf{width:60px;height:70px;border-radius:8px;background:var(--red-d);border:1.5px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;font-size:9px;color:var(--red);font-weight:700;transition:all .2s;}
+.bill-pdf:hover{transform:scale(1.05);}
+.bill-del{position:absolute;top:-5px;right:-5px;width:16px;height:16px;background:var(--red);color:#fff;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;}
+.bill-meta{font-size:9px;color:var(--text3);text-align:center;margin-top:2px;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.upload-bill-btn{width:60px;height:70px;border-radius:8px;border:1.5px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;font-size:10px;color:var(--text3);font-weight:600;transition:all .2s;}
+.upload-bill-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-d);}
+.upload-bill-btn span{font-size:18px;}
+
+/* FILTER CHIPS */
+.filter-row{display:flex;gap:6px;margin-bottom:11px;flex-wrap:wrap;align-items:center;}
+.chip{padding:5px 11px;border-radius:99px;font-size:11.5px;font-weight:600;border:1.5px solid var(--border);color:var(--text2);background:var(--white);cursor:pointer;transition:all .18s;}
+.chip:hover,.chip.active{border-color:var(--blue);color:var(--blue);background:var(--blue-d);}
+.filter-search{flex:1;min-width:140px;background:var(--white);border:1.5px solid var(--border);color:var(--text);padding:6px 11px;border-radius:99px;font-size:12px;outline:none;font-weight:500;}
+.filter-search:focus{border-color:var(--blue);}
+
+/* ITEM ROWS */
+.cat-group{margin-bottom:14px;}
+.cg-hd{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.cg-lbl{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;}
+.cg-hd::after{content:'';flex:1;height:1px;background:var(--border);}
+.cg-cnt{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);}
+.items-stack{display:flex;flex-direction:column;gap:3px;}
+.item-row{display:flex;align-items:center;gap:10px;padding:10px 13px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);transition:all .2s;}
+.item-row:hover{border-color:var(--blue);box-shadow:0 2px 10px var(--blue-d);}
+.item-row:hover .ia{opacity:1;}
+.item-row.bought{opacity:.5;background:var(--s1);}
+.item-row.bought .in{text-decoration:line-through;color:var(--text3);}
+.item-row.expiry-soon{border-left:3px solid var(--red);}
+.i-chk{width:19px;height:19px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;}
+.i-chk:hover{border-color:var(--green-l);}
+.i-chk.done{background:var(--green-l);border-color:var(--green-l);}
+.i-chk.done::after{content:'✓';font-size:10px;color:#fff;font-weight:700;}
+.i-body{flex:1;min-width:0;}
+.in{font-size:13px;font-weight:700;color:var(--text);}
+.iml{font-size:11px;color:var(--text2);}
+.i-tags{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-top:3px;}
+.t{display:inline-flex;align-items:center;gap:2px;font-size:9.5px;padding:2px 7px;border-radius:99px;font-weight:700;}
+.t.cat{background:var(--blue-d);color:var(--blue);}
+.t.sub{background:var(--purple-d);color:var(--purple);}
+.t.qty{background:var(--s1);color:var(--text2);}
+.t.ph{background:var(--teal-d);color:var(--teal);}
+.t.exp{background:var(--red-d);color:var(--red);}
+.t.exp-ok{background:var(--green-d);color:var(--green);}
+.t.pri-high{background:var(--red-d);color:var(--red);}
+.t.pri-medium{background:var(--amber-d);color:var(--amber);}
+.t.pri-low{background:var(--green-d);color:var(--green);}
+.t.recur{background:var(--amber-d);color:var(--amber);}
+.i-price{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--text);flex-shrink:0;}
+.i-img{width:40px;height:40px;border-radius:7px;object-fit:cover;border:1px solid var(--border);cursor:pointer;flex-shrink:0;}
+.ia{display:flex;gap:3px;opacity:0;transition:opacity .2s;flex-shrink:0;}
+.ab{background:var(--s1);border:1px solid var(--border);color:var(--text2);padding:4px 7px;border-radius:6px;font-size:11px;cursor:pointer;transition:all .2s;}
+.ab.e:hover{color:var(--blue);border-color:var(--blue);background:var(--blue-d);}
+.ab.d:hover{color:var(--red);border-color:var(--red);background:var(--red-d);}
+.empty-s{text-align:center;padding:44px 20px;color:var(--text3);}
+.empty-s .ei{font-size:38px;margin-bottom:10px;}
+.empty-s p{font-size:13px;font-weight:500;}
+
+/* ══════════════════════════════════════
+   OVERVIEW PAGE
+══════════════════════════════════════ */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;}
+.sc{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:14px 15px;transition:all .2s;}
+.sc:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.06);}
+.sc::before{content:'';display:block;height:3px;border-radius:2px;margin-bottom:10px;}
+.sc.b::before{background:linear-gradient(90deg,var(--blue),var(--blue-l));}
+.sc.g::before{background:linear-gradient(90deg,var(--green),var(--green-l));}
+.sc.a::before{background:linear-gradient(90deg,var(--amber),#fbbf24);}
+.sc.r::before{background:linear-gradient(90deg,var(--red),#f87171);}
+.sc-lbl{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.sc-val{font-family:'DM Mono',monospace;font-size:24px;font-weight:700;}
+.sc.b .sc-val{color:var(--blue);}
+.sc.g .sc-val{color:var(--green);}
+.sc.a .sc-val{color:var(--amber);}
+.sc.r .sc-val{color:var(--red);}
+.sc-sub{font-size:10px;color:var(--text3);margin-top:3px;}
+.lists-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:11px;}
+.lc{background:var(--white);border:1px solid var(--border);border-top:4px solid;border-radius:var(--r);padding:14px;cursor:pointer;transition:all .2s;}
+.lc:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.07);}
+.lc-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.lc-name{font-size:13.5px;font-weight:700;color:var(--text);}
+.lc-shop{font-size:10px;color:var(--text2);margin-bottom:7px;}
+.lc-prog{height:4px;background:var(--s1);border-radius:99px;overflow:hidden;margin-bottom:6px;}
+.lc-fill{height:100%;border-radius:99px;transition:width .6s;}
+.lc-ft{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--text3);}
+.lc-a{display:flex;gap:4px;opacity:0;transition:opacity .2s;}
+.lc:hover .lc-a{opacity:1;}
+.add-lc{background:transparent;border:2px dashed var(--border);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:118px;cursor:pointer;transition:all .2s;}
+.add-lc:hover{border-color:var(--blue);background:var(--blue-d);}
+.add-lc span{font-size:22px;color:var(--text3);}
+.add-lc p{font-size:11px;color:var(--text3);font-weight:600;}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(6px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;}
+.overlay.open{display:flex;animation:oFade .2s ease;}
+@keyframes oFade{from{opacity:0}to{opacity:1}}
+.modal{background:var(--white);border:1px solid var(--border);border-radius:18px;width:100%;max-width:480px;padding:24px;box-shadow:0 24px 60px rgba(0,0,0,.12);animation:mUp .25s ease;max-height:90vh;overflow-y:auto;}
+.modal.sm{max-width:360px;}
+@keyframes mUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mt{font-size:16px;font-weight:800;color:var(--text);margin-bottom:2px;}
+.ms{font-size:11.5px;color:var(--text3);margin-bottom:14px;font-weight:500;}
+.fg{margin-bottom:11px;}
+.fg label{display:block;font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--s1);border:1.5px solid var(--border);color:var(--text);padding:9px 12px;border-radius:var(--r-sm);font-size:13px;outline:none;transition:border-color .2s;resize:vertical;font-weight:500;}
+.fg input:focus,.fg select:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-d);background:var(--white);}
+.fg select option{background:var(--white);}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fg-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.ma{display:flex;gap:7px;margin-top:5px;}
+.bc{flex:1;padding:10px;background:var(--s1);border:1.5px solid var(--border);color:var(--text2);border-radius:var(--r-sm);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .2s;}
+.bc:hover{color:var(--text);border-color:var(--text2);}
+.bs2{flex:2;padding:10px;background:var(--blue);border:none;color:#fff;border-radius:var(--r-sm);font-size:12.5px;font-weight:700;cursor:pointer;transition:all .2s;}
+.bs2:hover{background:var(--blue-l);}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border2);}
+.toggle-row:last-child{border-bottom:none;}
+.tl{font-size:12.5px;font-weight:600;color:var(--text);}
+.td{font-size:10.5px;color:var(--text3);margin-top:1px;}
+.tw{position:relative;width:40px;height:22px;flex-shrink:0;}
+.tw input{opacity:0;width:0;height:0;position:absolute;}
+.ts{position:absolute;inset:0;background:var(--s2);border-radius:99px;cursor:pointer;transition:.25s;border:1px solid var(--border);}
+.ts::before{content:'';position:absolute;width:14px;height:14px;background:var(--text3);border-radius:50%;left:3px;top:3px;transition:.25s;}
+.tw input:checked+.ts{background:var(--amber-d);border-color:var(--amber);}
+.tw input:checked+.ts::before{background:var(--amber);transform:translateX(18px);}
+.cp{display:flex;gap:6px;flex-wrap:wrap;}
+.cpd{width:22px;height:22px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;}
+.cpd.sel{border-color:var(--text);transform:scale(1.2);}
+
+/* WA PREVIEW */
+.wa-prev{background:#e8f5e9;border:1px solid #c8e6c9;border-radius:var(--r);padding:12px 14px;margin:10px 0;font-family:'DM Mono',monospace;font-size:12px;color:#1b5e20;white-space:pre-wrap;line-height:1.7;max-height:260px;overflow-y:auto;}
+/* IMG VIEWER */
+.iv{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:500;display:none;align-items:center;justify-content:center;cursor:pointer;}
+.iv.open{display:flex;}
+.iv img{max-width:90vw;max-height:90vh;border-radius:10px;}
+/* TOAST */
+.toast{position:fixed;bottom:18px;right:18px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:10px 15px;font-size:12.5px;color:var(--text);z-index:999;display:none;align-items:center;gap:8px;box-shadow:0 8px 26px rgba(0,0,0,.12);font-weight:500;}
+.toast.show{display:flex;animation:tIn .3s ease;}
+@keyframes tIn{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+.t-dot{width:7px;height:7px;border-radius:50%;}
+.toast.ok .t-dot{background:var(--green-l);}
+.toast.err .t-dot{background:var(--red);}
+.toast.info .t-dot{background:var(--blue);}
+/* MOBILE */
+.mob-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99;}
+@media(max-width:700px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .hamburger{display:flex;}
+  .mob-ov.open{display:block;}
+  .content{padding:12px;}
+  .topbar{padding:10px 14px;}
+  .fg-row,.fg-3{grid-template-columns:1fr;}
+  .item-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+}
+@media print{
+  .sidebar,.topbar,.hamburger,.ia,.lc-a,.dh-acts,.filter-row,
+  .bills-section .upload-bill-btn,.add-lc,.toast,.overlay,.add-to-list-bar{display:none!important;}
+  body{background:#fff;}.main{margin-left:0;}
+  .page{display:block!important;}#pg-overview,#pg-catalog{display:none!important;}
+  @page{margin:14mm;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <div class="logo-name">🛒 ShopList <span style="font-size:9px;background:var(--orange);color:#fff;padding:2px 6px;border-radius:4px;font-weight:700;">KERALA</span></div>
+    <div class="logo-sub">ഷോപ്പ്‌ ലിസ്റ്റ് · Smart Shopping</div>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">Home</div>
+    <div class="nav-item active" onclick="go('overview')"><span class="nav-icon">🏠</span>Dashboard<span class="nav-count blue" id="sb1">0</span></div>
+    <div class="nav-item" onclick="go('catalog')"><span class="nav-icon">📋</span>Item Catalog<span style="font-size:9px;background:var(--green-l);color:#fff;padding:2px 5px;border-radius:3px;font-weight:700;margin-left:auto">NEW</span></div>
+    <div class="nav-item" onclick="go('recurring')"><span class="nav-icon">🔁</span>Recurring<span class="nav-count amber" id="sb2">0</span></div>
+    <div class="nav-item" onclick="go('expiry')"><span class="nav-icon">💊</span>Expiry Alerts<span class="nav-count red" id="sb3">0</span></div>
+    <div class="nav-item" onclick="go('prices')"><span class="nav-icon">📊</span>Price History</div>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">My Lists</div>
+    <div id="listNav"></div>
+    <div class="new-list-btn" onclick="openListModal()">＋ New List</div>
+  </div>
+  <div class="sidebar-foot"><div class="sf">Kerala Smart Shopping Manager</div></div>
+</aside>
+<div class="mob-ov" id="mobOv" onclick="closeSidebar()"></div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="hamburger" onclick="openSidebar()">☰</button>
+      <div class="pg-title" id="pgTitle">Dashboard</div>
+    </div>
+    <div class="tb-right" id="tbRight">
+      <button class="btn-p" onclick="openListModal()">＋ New List</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══ OVERVIEW ══ -->
+    <div class="page active" id="pg-overview">
+      <div id="expiryBanner"></div>
+      <div class="stats-row">
+        <div class="sc b"><div class="sc-lbl">Total Lists</div><div class="sc-val" id="st1">0</div><div class="sc-sub">shopping lists</div></div>
+        <div class="sc a"><div class="sc-lbl">To Buy</div><div class="sc-val" id="st2">0</div><div class="sc-sub">pending items</div></div>
+        <div class="sc g"><div class="sc-lbl">Bought</div><div class="sc-val" id="st3">0</div><div class="sc-sub">checked off</div></div>
+        <div class="sc r"><div class="sc-lbl">Est. Total</div><div class="sc-val" id="st4">₹0</div><div class="sc-sub">all lists</div></div>
+      </div>
+      <div class="lists-grid" id="listsGrid"></div>
+    </div>
+
+    <!-- ══ CATALOG ══ -->
+    <div class="page" id="pg-catalog">
+      <div class="catalog-search-row">
+        <input class="catalog-search" id="catalogSearch" placeholder="Search: Tomato / തക്കാളി / Rice / Milk..." oninput="renderCatalog()"/>
+        <select class="list-selector" id="catalogListSel" onchange="updateAddBar()">
+          <option value="">— Select List to Add To —</option>
+        </select>
+        <button class="btn-p" onclick="go('catalog')" style="background:var(--s1);color:var(--text2);border:1px solid var(--border);" title="Clear selection" onclick="clearCatalogSel()">✕ Clear</button>
+      </div>
+      <div id="catalogContent"></div>
+    </div>
+
+    <!-- ══ DETAIL ══ -->
+    <div class="page" id="pg-detail">
+      <div class="detail-hd">
+        <div class="dh-info">
+          <div class="dh-title"><span id="dDot" style="width:10px;height:10px;border-radius:50%;flex-shrink:0;display:inline-block"></span><span id="dTitle"></span></div>
+          <div class="dh-meta" id="dMeta"></div>
+        </div>
+        <div class="dh-acts" id="dhActs"></div>
+      </div>
+      <div class="bstrip" id="bstrip"></div>
+
+      <!-- BILLS UPLOAD -->
+      <div class="bills-section">
+        <div class="bills-title">
+          <span>🧾 Bills & Receipts · ബില്ലുകൾ</span>
+          <label style="cursor:pointer;font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-d);padding:3px 10px;border-radius:6px;">
+            + Upload Bill
+            <input type="file" accept="image/*,.pdf" multiple style="display:none" onchange="uploadBills(event)"/>
+          </label>
+        </div>
+        <div class="bills-grid" id="billsGrid">
+          <label class="upload-bill-btn">
+            <span>📷</span><div style="font-size:9px;text-align:center">Photo /<br>PDF</div>
+            <input type="file" accept="image/*,.pdf" multiple style="display:none" onchange="uploadBills(event)"/>
+          </label>
+        </div>
+      </div>
+
+      <!-- FILTER ROW -->
+      <div class="filter-row">
+        <input class="filter-search" id="itemSearch" type="text" placeholder="🔍 Search items..." oninput="renderDetail(activeListId)"/>
+        <button class="chip active" onclick="setChip(this,'')">All</button>
+        <button class="chip" onclick="setChip(this,'pending')">⏳ Pending</button>
+        <button class="chip" onclick="setChip(this,'bought')">✅ Bought</button>
+        <button class="chip" onclick="setChip(this,'high')">🔴 High</button>
+        <button class="chip" onclick="setChip(this,'medicine')">💊 Medicine</button>
+      </div>
+      <div id="itemsContainer"></div>
+    </div>
+
+    <!-- ══ RECURRING ══ -->
+    <div class="page" id="pg-recurring">
+      <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Items set to auto-remind you when it's time to restock. · ആവർത്തന ഓർമ്മപ്പെടുത്തൽ</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;" id="recurGrid"></div>
+    </div>
+
+    <!-- ══ EXPIRY ══ -->
+    <div class="page" id="pg-expiry">
+      <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Medicine & product expiry tracker. · മരുന്ന് കാലഹരണ ട്രാക്കർ</p>
+      <div id="expiryContent"></div>
+    </div>
+
+    <!-- ══ PRICES ══ -->
+    <div class="page" id="pg-prices">
+      <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Price history & store comparison. · വില ചരിത്രം</p>
+      <div id="pricesContent"></div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- FLOAT ADD BAR -->
+<div class="add-to-list-bar" id="addToListBar" onclick="addSelectedToList()">
+  <span>＋ Add Selected Items to List</span>
+  <span class="atlb-count" id="atlbCount">0 items</span>
+</div>
+
+<!-- LIST MODAL -->
+<div class="overlay" id="listOv">
+  <div class="modal sm">
+    <div class="mt" id="listMT">New List</div>
+    <div class="ms">Create a shopping list</div>
+    <div class="fg"><label>List Name</label><input id="lName" placeholder="e.g. Weekly Groceries / ആഴ്ചതോറും"/></div>
+    <div class="fg"><label>Shop · കട</label><input id="lShop" placeholder="DMart, Reliance, Local Shop..."/></div>
+    <div class="fg"><label>Budget (₹)</label><input id="lBudget" type="number" placeholder="0"/></div>
+    <div class="fg"><label>Colour</label><div class="cp" id="listCP"></div></div>
+    <div class="ma">
+      <button class="bc" onclick="closeListModal()">Cancel</button>
+      <button class="bs2" id="listBtn" onclick="saveList()">Create List</button>
+    </div>
+  </div>
+</div>
+
+<!-- ITEM DETAIL MODAL (edit existing) -->
+<div class="overlay" id="itemOv">
+  <div class="modal">
+    <div class="mt" id="itemMT">Edit Item</div>
+    <div class="ms">Update item details · വിശദാംശങ്ങൾ അപ്ഡേറ്റ് ചെയ്യുക</div>
+    <div class="fg-row">
+      <div class="fg"><label>English Name</label><input id="iEN" placeholder="e.g. Matta Rice"/></div>
+      <div class="fg"><label>Malayalam Name</label><input id="iML" placeholder="e.g. മട്ട അരി"/></div>
+    </div>
+    <div class="fg-3">
+      <div class="fg"><label>Quantity</label><input id="iQty" type="number" placeholder="1" min="0.5" step="0.5"/></div>
+      <div class="fg"><label>Unit</label>
+        <select id="iUnit">
+          <option>pcs</option><option>kg</option><option>g</option><option>L</option><option>ml</option>
+          <option>pack</option><option>dozen</option><option>box</option><option>bottle</option><option>bag</option>
+        </select>
+      </div>
+      <div class="fg"><label>Price (₹)</label><input id="iPrice" type="number" placeholder="0" step="0.5"/></div>
+    </div>
+    <div class="fg-row">
+      <div class="fg"><label>Category</label>
+        <select id="iCat" onchange="loadSubCat()">
+          <option>Vegetables</option><option>Fruits</option><option>Rice</option><option>Flour</option>
+          <option>Oil</option><option>Pulses</option><option>Dairy</option><option>Spices</option>
+          <option>Groceries</option><option>Medicine</option><option>Cleaning</option>
+          <option>Personal Care</option><option>Meat</option><option>Snacks</option><option>Beverages</option><option>Other</option>
+        </select>
+      </div>
+      <div class="fg"><label>Sub-Category</label><select id="iSubCat"><option value="">— None —</option></select></div>
+    </div>
+    <div class="fg-row">
+      <div class="fg"><label>Priority</label>
+        <select id="iPri"><option value="medium">🟡 Medium</option><option value="high">🔴 High</option><option value="low">🟢 Low</option></select>
+      </div>
+      <div class="fg"><label>Store</label><input id="iStore" placeholder="DMart, Local..."/></div>
+    </div>
+    <div class="fg"><label>Note / Brand</label><input id="iNote" placeholder="Brand name, size, etc."/></div>
+    <div id="medSection" style="display:none;background:var(--red-d);border:1.5px solid var(--red);border-radius:var(--r-sm);padding:11px 13px;margin-bottom:11px;">
+      <div style="font-size:10px;font-weight:700;color:var(--red);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;">💊 Medicine Details</div>
+      <div class="fg-row">
+        <div class="fg"><label>Expiry Date</label><input id="iExpiry" type="date"/></div>
+        <div class="fg"><label>Dosage</label><input id="iDosage" placeholder="500mg, 10ml"/></div>
+      </div>
+    </div>
+    <!-- Image -->
+    <div style="background:var(--s1);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:11px;">
+      <div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;">📷 Brand Photo</div>
+      <label style="display:inline-flex;align-items:center;gap:5px;background:var(--white);border:1.5px solid var(--border);color:var(--text2);padding:6px 11px;border-radius:var(--r-sm);font-size:11.5px;cursor:pointer;font-weight:600;transition:all .2s;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border)'">
+        📷 Attach<input type="file" accept="image/*" capture="environment" style="display:none" onchange="attachImg(event)"/>
+      </label>
+      <button id="clearImgBtn" onclick="clearImg()" style="display:none;margin-left:7px;background:var(--red-d);border:1.5px solid var(--red);color:var(--red);padding:6px 10px;border-radius:var(--r-sm);font-size:11px;font-weight:600;cursor:pointer;">✕</button>
+      <div id="imgPrevWrap" style="margin-top:7px;display:none;"><img id="imgPrev" src="" style="width:65px;height:65px;border-radius:8px;object-fit:cover;border:1.5px solid var(--border);cursor:pointer;" onclick="viewImg(this.src)"/></div>
+    </div>
+    <!-- Recurring -->
+    <div style="background:var(--s1);border-radius:var(--r-sm);padding:9px 12px;margin-bottom:11px;">
+      <div class="toggle-row">
+        <div><div class="tl">🔁 Recurring Item</div><div class="td">Auto-remind to restock</div></div>
+        <label class="tw"><input type="checkbox" id="iRecur" onchange="this.parentElement.parentElement.parentElement.nextElementSibling&&(document.getElementById('recurWrap').style.display=this.checked?'block':'none')"/><span class="ts"></span></label>
+      </div>
+      <div id="recurWrap" style="display:none;margin-top:9px;">
+        <div class="fg" style="margin-bottom:0"><label>Remind every</label>
+          <select id="iRecurI"><option value="7">7 days</option><option value="14">14 days</option><option value="30">30 days</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="ma">
+      <button class="bc" onclick="closeItemModal()">Cancel</button>
+      <button class="bs2" id="itemBtn" onclick="saveItem()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- WA MODAL -->
+<div class="overlay" id="waOv">
+  <div class="modal">
+    <div class="mt">💬 Send to WhatsApp</div>
+    <div class="ms">Share your list as a clean message</div>
+    <div class="wa-prev" id="waPrev"></div>
+    <div style="display:flex;gap:7px;">
+      <button class="bs2" onclick="sendWA()" style="background:#25d366;">📱 Open WhatsApp</button>
+      <button class="btn-g" onclick="copyWA()">📋 Copy</button>
+      <button class="bc" onclick="document.getElementById('waOv').classList.remove('open')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMAGE VIEWER -->
+<div class="iv" id="iv" onclick="this.classList.remove('open')"><img id="ivSrc" src="" alt=""/></div>
+<!-- TOAST -->
+<div class="toast" id="toast"><div class="t-dot"></div><span id="toastMsg"></span></div>
+
+<script>
+// ══════════════════════════════════════════════
+//  KERALA CATALOG DATABASE
+// ══════════════════════════════════════════════
+const CATALOG = [
+  // ── VEGETABLES ──
+  { section:'Vegetables', sectionML:'പച്ചക്കറികൾ', color:'#16a34a', bgColor:'#f0fdf4',
+    items:[
+      {en:'Long Beans / Amarapayar',    ml:'അമരപ്പയർ',          unit:'kg',  cat:'Vegetables'},
+      {en:'Beetroot',                    ml:'ബീറ്റ്‌റൂട്ട്',    unit:'kg',  cat:'Vegetables'},
+      {en:'Spinach',                     ml:'ചീര',               unit:'bunch',cat:'Vegetables'},
+      {en:'Carrot',                      ml:'കാരറ്റ്',           unit:'kg',  cat:'Vegetables'},
+      {en:'Drumstick / Muringakaya',     ml:'മുരിങ്ങക്കായ',     unit:'pcs', cat:'Vegetables'},
+      {en:'Cauliflower / Gobi',          ml:'ഗോബി / കോളിഫ്ലവർ',unit:'pcs', cat:'Vegetables'},
+      {en:'Ginger',                      ml:'ഇഞ്ചി',             unit:'g',   cat:'Vegetables'},
+      {en:'Red Onion',                   ml:'ചുവന്നുള്ളി',       unit:'kg',  cat:'Vegetables'},
+      {en:'White Onion / Savala',        ml:'സവാള',              unit:'kg',  cat:'Vegetables'},
+      {en:'Snake Gourd / Padavalanga',   ml:'പടവലങ്ങ',           unit:'pcs', cat:'Vegetables'},
+      {en:'Bitter Gourd / Pavakka',      ml:'പാവക്ക',            unit:'pcs', cat:'Vegetables'},
+      {en:'Potato',                      ml:'ഉരുളക്കിഴങ്ങ്',    unit:'kg',  cat:'Vegetables'},
+      {en:'Tomato',                      ml:'തക്കാളി',           unit:'kg',  cat:'Vegetables'},
+      {en:'Brinjal / Eggplant',          ml:'വഴുതന',             unit:'pcs', cat:'Vegetables'},
+      {en:'Yam / Chena',                 ml:'ചേന',               unit:'kg',  cat:'Vegetables'},
+      {en:'Chinese Potato / Koorkka',    ml:'കൂർക്ക',            unit:'kg',  cat:'Vegetables'},
+      {en:'Cucumber / Kakkarika',        ml:'കക്കരി',            unit:'pcs', cat:'Vegetables'},
+      {en:'Ivy Gourd / Kovakka',         ml:'കോവക്ക',            unit:'pcs', cat:'Vegetables'},
+      {en:'Bottle Gourd / Churakka',     ml:'ചുരക്ക',            unit:'pcs', cat:'Vegetables'},
+      {en:'Mushroom / Koon',             ml:'കൂൺ',               unit:'pack',cat:'Vegetables'},
+      {en:'Ash Gourd / Olan',            ml:'ഓലൻ',               unit:'pcs', cat:'Vegetables'},
+    ]
+  },
+  // ── FRUITS ──
+  { section:'Fruits', sectionML:'പഴങ്ങൾ', color:'#ea580c', bgColor:'#fff7ed',
+    items:[
+      {en:'Apple',                       ml:'ആപ്പിൾ',            unit:'pcs', cat:'Fruits'},
+      {en:'Nendran Banana',              ml:'നേന്ത്രപ്പഴം',     unit:'dozen',cat:'Fruits', sub:'Banana'},
+      {en:'Njalipooyan Banana',          ml:'ഞാലിപ്പൂവൻ',       unit:'dozen',cat:'Fruits', sub:'Banana'},
+      {en:'Palayamkodan Banana',         ml:'പാളയന്തോടൻ',        unit:'dozen',cat:'Fruits', sub:'Banana'},
+      {en:'Regular Banana / Pazham',     ml:'പഴം',               unit:'dozen',cat:'Fruits', sub:'Banana'},
+      {en:'Black Grapes',                ml:'മുന്തിരി (കറുപ്പൻ)',unit:'kg',  cat:'Fruits', sub:'Grapes'},
+      {en:'Green Grapes',                ml:'മുന്തിരി (പച്ച)',   unit:'kg',  cat:'Fruits', sub:'Grapes'},
+      {en:'Mango',                       ml:'മാമ്പഴം',           unit:'pcs', cat:'Fruits'},
+      {en:'Orange',                      ml:'ഓറഞ്ച്',            unit:'pcs', cat:'Fruits'},
+      {en:'Papaya',                      ml:'പപ്പായ',             unit:'pcs', cat:'Fruits'},
+      {en:'Pineapple',                   ml:'പൈനാപ്പിൾ',         unit:'pcs', cat:'Fruits'},
+      {en:'Watermelon / Thenni',         ml:'തണ്ണിമത്തൻ',        unit:'pcs', cat:'Fruits'},
+      {en:'Jackfruit / Chakka',          ml:'ചക്ക',               unit:'pcs', cat:'Fruits'},
+    ]
+  },
+  // ── RICE ──
+  { section:'Rice', sectionML:'അരി', color:'#d97706', bgColor:'#fffbeb',
+    subLabel:'അരി വർഗ്ഗങ്ങൾ (Rice Varieties)',
+    items:[
+      {en:'Matta Rice',                  ml:'മട്ട അരി',          unit:'kg',  cat:'Rice', sub:'Rice'},
+      {en:'Ponni Rice',                  ml:'പൊന്നി അരി',        unit:'kg',  cat:'Rice', sub:'Rice'},
+      {en:'Khaima / Jeerakasala',        ml:'ബിരിയാണി അരി / കൈമ',unit:'kg', cat:'Rice', sub:'Rice'},
+      {en:'Raw Rice / Pachari',          ml:'പച്ചരി',             unit:'kg',  cat:'Rice', sub:'Rice'},
+      {en:'Basmati Rice',                ml:'ബാസ്മതി',            unit:'kg',  cat:'Rice', sub:'Rice'},
+    ]
+  },
+  // ── FLOUR ──
+  { section:'Flour', sectionML:'പൊടികൾ', color:'#92400e', bgColor:'#fdf4ee',
+    subLabel:'മാവ് & പൊടി (Flours)',
+    items:[
+      {en:'Rice Flour / Aripodi',        ml:'അരിപ്പൊടി',         unit:'kg',  cat:'Flour', sub:'Flour'},
+      {en:'Wheat Flour / Atta',          ml:'ഗോതമ്പ് പൊടി / ആട്ട',unit:'kg', cat:'Flour', sub:'Flour'},
+      {en:'Maida / All Purpose Flour',   ml:'മൈദ',                unit:'kg',  cat:'Flour', sub:'Flour'},
+      {en:'Gram Flour / Besan / Kadalapodi',ml:'കടലപ്പൊടി / ബേസൻ',unit:'kg',cat:'Flour', sub:'Flour'},
+      {en:'Semolina / Rava / Sooji',     ml:'റവ / സൂജി',          unit:'kg',  cat:'Flour', sub:'Flour'},
+    ]
+  },
+  // ── OIL ──
+  { section:'Oil', sectionML:'എണ്ണകൾ', color:'#ca8a04', bgColor:'#fefce8',
+    subLabel:'ഭക്ഷ്യ എണ്ണകൾ (Cooking Oils)',
+    items:[
+      {en:'Coconut Oil / Velichenna',    ml:'വെളിച്ചെണ്ണ',       unit:'L',   cat:'Oil', sub:'Oil'},
+      {en:'Sunflower Oil',               ml:'സൺഫ്ലവർ ഓയിൽ',    unit:'L',   cat:'Oil', sub:'Oil'},
+      {en:'Gingelly / Sesame Oil',       ml:'നല്ലെണ്ണ',           unit:'L',   cat:'Oil', sub:'Oil'},
+      {en:'Olive Oil',                   ml:'ഒലീവ് ഓയിൽ',       unit:'L',   cat:'Oil', sub:'Oil'},
+      {en:'Ghee / Neyy',                 ml:'നെയ്യ്',             unit:'ml',  cat:'Oil', sub:'Oil'},
+    ]
+  },
+  // ── PULSES ──
+  { section:'Pulses', sectionML:'പയർവർഗ്ഗങ്ങൾ', color:'#7c3aed', bgColor:'#faf5ff',
+    subLabel:'പയർ & പരിപ്പ് (Pulses & Lentils)',
+    items:[
+      {en:'Green Gram / Cherupayar',     ml:'ചെറുപയർ',           unit:'kg',  cat:'Pulses', sub:'Pulses'},
+      {en:'Chickpeas / Kadala',          ml:'കടല',                unit:'kg',  cat:'Pulses', sub:'Pulses'},
+      {en:'Toor Dal / Parippu',          ml:'തുവരപ്പരിപ്പ്',     unit:'kg',  cat:'Pulses', sub:'Pulses'},
+      {en:'Urad Dal / Uzhunnu',          ml:'ഉഴുന്ന്',            unit:'kg',  cat:'Pulses', sub:'Pulses'},
+      {en:'Cowpea / Vanpayar',           ml:'വൻപയർ',              unit:'kg',  cat:'Pulses', sub:'Pulses'},
+    ]
+  },
+  // ── DAIRY ──
+  { section:'Dairy', sectionML:'പാൽ ഉൽപ്പന്നങ്ങൾ', color:'#0d9488', bgColor:'#f0fdfa',
+    items:[
+      {en:'Milk / Pal',                  ml:'പാൽ',                unit:'L',   cat:'Dairy'},
+      {en:'Curd / Thairu',               ml:'തൈര്',               unit:'ml',  cat:'Dairy'},
+      {en:'Butter / Venna',              ml:'വെണ്ണ',              unit:'g',   cat:'Dairy'},
+      {en:'Paneer',                      ml:'പനീർ',               unit:'g',   cat:'Dairy'},
+      {en:'Cheese',                      ml:'ചീസ്',               unit:'g',   cat:'Dairy'},
+    ]
+  },
+  // ── SPICES ──
+  { section:'Spices', sectionML:'മസാലകൾ', color:'#dc2626', bgColor:'#fef2f2',
+    items:[
+      {en:'Turmeric Powder / Manjalpodi',ml:'മഞ്ഞൾപ്പൊടി',      unit:'g',   cat:'Spices'},
+      {en:'Red Chilli Powder / Mulakupodi',ml:'മുളകുപൊടി',       unit:'g',   cat:'Spices'},
+      {en:'Coriander Powder / Mallipodi',ml:'മല്ലിപ്പൊടി',       unit:'g',   cat:'Spices'},
+      {en:'Asafoetida / Kayam',          ml:'കായം',               unit:'g',   cat:'Spices'},
+      {en:'Black Pepper / Kurumulaku',   ml:'കുരുമുളക്',          unit:'g',   cat:'Spices'},
+      {en:'Mustard / Kaduku',            ml:'കടുക്',              unit:'g',   cat:'Spices'},
+      {en:'Garam Masala',                ml:'ഗരം മസാല',           unit:'g',   cat:'Spices'},
+      {en:'Cumin / Jeerakam',            ml:'ജീരകം',              unit:'g',   cat:'Spices'},
+    ]
+  },
+  // ── MEDICINE ──
+  { section:'Medicine', sectionML:'മരുന്നുകൾ', color:'#be185d', bgColor:'#fdf2f8',
+    items:[
+      {en:'Paracetamol',                 ml:'പാരസെറ്റമോൾ',       unit:'box', cat:'Medicine', sub:'Painkiller',isMed:true},
+      {en:'Antacid',                     ml:'ആന്റാസിഡ്',          unit:'pack',cat:'Medicine', sub:'Digestion',isMed:true},
+      {en:'Dettol / Disinfectant',       ml:'ഡെറ്റോൾ / ഡിസിൻഫെക്റ്റന്റ്',unit:'bottle',cat:'Medicine',sub:'First Aid',isMed:true},
+      {en:'Ointment',                    ml:'ഒയിൻമെന്റ്',         unit:'pcs', cat:'Medicine', sub:'First Aid',isMed:true},
+      {en:'Vitamin Tablets',             ml:'വിറ്റാമിൻ ഗുളികകൾ', unit:'box', cat:'Medicine', sub:'Vitamins',isMed:true},
+      {en:'Bandage & Plaster',           ml:'ബാൻഡേജ് & പ്ലാസ്റ്റർ',unit:'pack',cat:'Medicine',sub:'First Aid',isMed:true},
+      {en:'Cough Syrup',                 ml:'കഫ് സിറപ്പ്',         unit:'bottle',cat:'Medicine',sub:'Cold',isMed:true},
+    ]
+  },
+  // ── CLEANING ──
+  { section:'Cleaning', sectionML:'ക്ലീനിംഗ്', color:'#0d9488', bgColor:'#f0fdfa',
+    items:[
+      {en:'Soap / Soap',                 ml:'സോപ്പ്',             unit:'pcs', cat:'Cleaning'},
+      {en:'Detergent Powder',            ml:'ഡിറ്റർജന്റ്',        unit:'kg',  cat:'Cleaning'},
+      {en:'Dish Wash / Vim',             ml:'ഡിഷ് വാഷ്',          unit:'ml',  cat:'Cleaning'},
+      {en:'Floor Cleaner',               ml:'ഫ്ലോർ ക്ലീനർ',      unit:'L',   cat:'Cleaning'},
+      {en:'Toilet Cleaner',              ml:'ടോയ്ലറ്റ് ക്ലീനർ',  unit:'bottle',cat:'Cleaning'},
+    ]
+  },
+  // ── PERSONAL CARE ──
+  { section:'Personal Care', sectionML:'പേഴ്സണൽ കെയർ', color:'#7c3aed', bgColor:'#faf5ff',
+    items:[
+      {en:'Toothpaste / Paste',          ml:'ടൂത്ത് പേസ്റ്റ്',   unit:'pcs', cat:'Personal Care'},
+      {en:'Toothbrush',                  ml:'ടൂത്ത് ബ്രഷ്',      unit:'pcs', cat:'Personal Care'},
+      {en:'Shampoo',                     ml:'ഷാംപൂ',              unit:'ml',  cat:'Personal Care'},
+      {en:'Body Wash / Bath Soap',       ml:'ബോഡി വാഷ്',          unit:'ml',  cat:'Personal Care'},
+      {en:'Coconut Oil (Hair)',          ml:'കൊപ്ര എണ്ണ',          unit:'ml',  cat:'Personal Care'},
+      {en:'Sanitary Pads',               ml:'സാനിറ്ററി പാഡ്',    unit:'pack',cat:'Personal Care'},
+    ]
+  },
+];
+
+// Subcat map
+const SUBCAT_MAP={
+  'Rice':['Matta','Ponni','Basmati','Jeerakasala','Raw Rice'],
+  'Flour':['Rice Flour','Wheat/Atta','Maida','Besan','Rava'],
+  'Oil':['Coconut Oil','Sunflower Oil','Sesame Oil','Olive Oil','Ghee'],
+  'Pulses':['Green Gram','Chickpeas','Toor Dal','Urad Dal','Cowpea'],
+  'Spices':['Turmeric','Chilli','Coriander','Pepper','Garam Masala','Mustard'],
+  'Dairy':['Milk','Curd','Butter','Paneer','Cheese'],
+  'Medicine':['Painkiller','Antacid','Antiseptic','Ointment','Vitamins','First Aid','Cold'],
+  'Vegetables':['Leafy','Root','Gourd','Beans'],
+  'Fruits':['Banana','Citrus','Tropical'],
+};
+
+const CAT_E={Vegetables:'🥦',Fruits:'🍎',Rice:'🍚',Flour:'🌾',Oil:'🫙',Pulses:'🫘',Spices:'🌶️',Dairy:'🥛',Groceries:'🛒',Medicine:'💊',Cleaning:'🧹','Personal Care':'🧴',Meat:'🥩',Snacks:'🍿',Beverages:'☕',Other:'📦'};
+const LIST_COLORS=['#3b6ef5','#16a34a','#d97706','#dc2626','#7c3aed','#0d9488','#be185d','#ea580c'];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let lists        = JSON.parse(localStorage.getItem('slk2_lists')  || '[]');
+let priceHistory = JSON.parse(localStorage.getItem('slk2_prices') || '{}');
+let activeListId = null;
+let editListId   = null;
+let editItemId   = null;
+let itemFilter   = '';
+let selColor     = '#3b6ef5';
+let pendingImg   = null;
+// Catalog selection: { itemKey: { qty, unit, price, pri } }
+let catalogSel   = {};
+
+function save(){
+  localStorage.setItem('slk2_lists',JSON.stringify(lists));
+  localStorage.setItem('slk2_prices',JSON.stringify(priceHistory));
+}
+function getList(id){ return lists.find(l=>l.id===id); }
+function fmt(n){ return '₹'+parseFloat(n||0).toLocaleString('en-IN',{maximumFractionDigits:2}); }
+function fmtD(s){ if(!s)return'—';return new Date(s).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); }
+
+function toast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  t.className='toast show '+type;
+  document.getElementById('toastMsg').textContent=msg;
+  clearTimeout(t._t);t._t=setTimeout(()=>t.className='toast',2800);
+}
+
+// ══════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════
+function go(page, listId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item,.list-ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById('pg-'+page).classList.add('active');
+  const ni=document.querySelector('.nav-item[onclick*="\''+page+'\'"]');
+  if(ni) ni.classList.add('active');
+  closeSidebar();
+
+  if(page==='overview'){
+    document.getElementById('pgTitle').textContent='Dashboard';
+    document.getElementById('tbRight').innerHTML='<button class="btn-p" onclick="openListModal()">＋ New List</button>';
+    renderOverview();
+  } else if(page==='catalog'){
+    document.getElementById('pgTitle').textContent='Item Catalog · ഇനം ക്യാറ്റലോഗ്';
+    document.getElementById('tbRight').innerHTML='<button class="btn-p" onclick="clearCatalogSel()">✕ Clear Selection</button>';
+    catalogSel={};
+    updateAddBar();
+    updateCatalogListSelector();
+    renderCatalog();
+  } else if(page==='detail'&&listId){
+    activeListId=listId;
+    const l=getList(listId);if(!l)return;
+    document.getElementById('pgTitle').textContent=l.name;
+    document.getElementById('tbRight').innerHTML=
+      '<button class="btn-wa" onclick="openWAModal()">💬 WhatsApp</button>'+
+      '<button class="btn-g" onclick="exportPDF()">📄 PDF</button>'+
+      '<button class="btn-g" onclick="exportCSV()">📊 CSV</button>'+
+      '<button class="btn-p" onclick="openItemModal()">＋ Add Item</button>';
+    const lni=document.getElementById('lni-'+listId);
+    if(lni) lni.classList.add('active');
+    itemFilter='';
+    document.querySelectorAll('.filter-row .chip').forEach((c,i)=>c.classList.toggle('active',i===0));
+    renderDetail(listId);
+  } else if(page==='recurring'){
+    document.getElementById('pgTitle').textContent='Recurring · ആവർത്തന';
+    document.getElementById('tbRight').innerHTML='';
+    renderRecurringPage();
+  } else if(page==='expiry'){
+    document.getElementById('pgTitle').textContent='Expiry Alerts · കാലഹരണം';
+    document.getElementById('tbRight').innerHTML='';
+    renderExpiryPage();
+  } else if(page==='prices'){
+    document.getElementById('pgTitle').textContent='Price History · വില ചരിത്രം';
+    document.getElementById('tbRight').innerHTML='';
+    renderPricePage();
+  }
+}
+
+function openSidebar(){  document.getElementById('sidebar').classList.add('open');    document.getElementById('mobOv').classList.add('open'); }
+function closeSidebar(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobOv').classList.remove('open'); }
+
+// ══════════════════════════════════════════════
+//  CATALOG PAGE
+// ══════════════════════════════════════════════
+function updateCatalogListSelector(){
+  const sel=document.getElementById('catalogListSel');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Select List to Add To —</option>'+lists.map(l=>'<option value="'+l.id+'">'+l.name+'</option>').join('');
+  if(cur) sel.value=cur;
+}
+
+function renderCatalog(){
+  const q=(document.getElementById('catalogSearch').value||'').trim().toLowerCase();
+  let html='';
+  CATALOG.forEach(section=>{
+    const filteredItems=section.items.filter(item=>{
+      if(!q) return true;
+      return (item.en||'').toLowerCase().includes(q)||(item.ml||'').toLowerCase().includes(q)||(item.sub||'').toLowerCase().includes(q);
+    });
+    if(!filteredItems.length) return;
+
+    // Group by sub if has subtypes
+    const hasSubs=filteredItems.some(i=>i.sub);
+    let itemsHTML='';
+
+    if(hasSubs){
+      const subs={};
+      filteredItems.forEach(i=>{ const k=i.sub||'Other'; if(!subs[k])subs[k]=[]; subs[k].push(i); });
+      Object.entries(subs).forEach(([sub,its])=>{
+        itemsHTML+='<div class="subtype-section"><div class="sub-hd">'+sub+'</div><div class="item-grid">'+its.map(i=>catalogItemHTML(i,section)).join('')+'</div></div>';
+      });
+    } else {
+      itemsHTML='<div class="item-grid">'+filteredItems.map(i=>catalogItemHTML(i,section)).join('')+'</div>';
+    }
+
+    html+=`<div class="catalog-section">
+      <div class="cat-section-hd" style="background:${section.bgColor};border-left-color:${section.color}">
+        <div style="font-size:20px">${CAT_E[section.section]||'📦'}</div>
+        <div class="cat-section-title" style="color:${section.color}">${section.section}</div>
+        <div class="cat-section-ml" style="color:${section.color}">${section.sectionML}</div>
+        <div class="cat-section-count" style="color:${section.color}">${filteredItems.length} items</div>
+      </div>
+      ${itemsHTML}
+    </div>`;
+  });
+  document.getElementById('catalogContent').innerHTML=html||'<div class="empty-s"><div class="ei">🔍</div><p>No items found</p></div>';
+}
+
+function itemKey(item){ return (item.en||'').replace(/\s+/g,'_'); }
+
+function catalogItemHTML(item, section){
+  const k=itemKey(item);
+  const isSel=!!catalogSel[k];
+  const d=catalogSel[k]||{};
+  return `<div class="catalog-item ${isSel?'selected':''}" id="ci-${k}">
+    <div class="ci-top">
+      <div class="ci-names">
+        <div class="ci-en">${item.en}</div>
+        <div class="ci-ml">${item.ml}</div>
+      </div>
+      <div>
+        <div class="ci-check" onclick="toggleCatalogItem('${k}','${escQ(item.en)}','${escQ(item.ml)}','${item.cat}','${item.sub||''}','${item.unit||'pcs'}',${!!item.isMed})"></div>
+        ${item.isMed?'<div style="font-size:9px;color:var(--pink);font-weight:700;margin-top:3px;text-align:center">💊</div>':''}
+      </div>
+    </div>
+    <div class="ci-inputs">
+      <input class="ci-qty" id="qty-${k}" type="number" value="${d.qty||1}" min="0.5" step="0.5" placeholder="Qty" oninput="updateSel('${k}','qty',this.value)"/>
+      <select class="ci-unit" id="unit-${k}" onchange="updateSel('${k}','unit',this.value)">
+        ${['pcs','kg','g','L','ml','pack','dozen','box','bottle','bag','bunch'].map(u=>`<option value="${u}" ${(d.unit||item.unit)===u?'selected':''}>${u}</option>`).join('')}
+      </select>
+    </div>
+    <div class="ci-price-row">
+      <input class="ci-price" id="price-${k}" type="number" value="${d.price||''}" min="0" step="0.5" placeholder="₹ Price" oninput="updateSel('${k}','price',this.value)"/>
+      <select class="ci-pri" id="pri-${k}" onchange="updateSel('${k}','pri',this.value)">
+        <option value="medium" ${(d.pri||'medium')==='medium'?'selected':''}>🟡 Med</option>
+        <option value="high" ${d.pri==='high'?'selected':''}>🔴 High</option>
+        <option value="low" ${d.pri==='low'?'selected':''}>🟢 Low</option>
+      </select>
+    </div>
+    <button class="ci-add-btn" onclick="addSingleToList('${k}','${escQ(item.en)}','${escQ(item.ml)}','${item.cat}','${item.sub||''}',${!!item.isMed})">＋ Add to List</button>
+  </div>`;
+}
+
+function escQ(s){ return (s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+function toggleCatalogItem(k,en,ml,cat,sub,unit,isMed){
+  if(catalogSel[k]){ delete catalogSel[k]; }
+  else { catalogSel[k]={en,ml,cat,sub,unit,qty:1,price:'',pri:'medium',isMed}; }
+  renderCatalog();
+  updateAddBar();
+}
+
+function updateSel(k,field,val){
+  if(!catalogSel[k]) return;
+  catalogSel[k][field]=val;
+  updateAddBar();
+}
+
+function updateAddBar(){
+  const count=Object.keys(catalogSel).length;
+  const bar=document.getElementById('addToListBar');
+  document.getElementById('atlbCount').textContent=count+' item'+(count!==1?'s':'');
+  bar.className=count>0&&document.getElementById('catalogListSel').value?'add-to-list-bar show':'add-to-list-bar';
+}
+
+function clearCatalogSel(){ catalogSel={}; renderCatalog(); updateAddBar(); }
+
+function addSingleToList(k,en,ml,cat,sub,isMed){
+  const listId=document.getElementById('catalogListSel').value;
+  if(!listId){toast('Please select a list first','err');return;}
+  const l=getList(parseInt(listId));if(!l)return;
+  if(!l.items)l.items=[];
+  const d=catalogSel[k]||{};
+  const qtyEl=document.getElementById('qty-'+k);
+  const priceEl=document.getElementById('price-'+k);
+  const unitEl=document.getElementById('unit-'+k);
+  const priEl=document.getElementById('pri-'+k);
+  const qty=parseFloat(qtyEl?qtyEl.value:d.qty||1)||1;
+  const price=parseFloat(priceEl?priceEl.value:d.price||0)||0;
+  const unit=unitEl?unitEl.value:d.unit||'pcs';
+  const pri=priEl?priEl.value:d.pri||'medium';
+  l.items.push({id:Date.now(),name:en,nameEN:en,nameML:ml,qty,unit,cat,subCat:sub||'',pri,price,note:'',bought:false,recur:false,image:null,store:l.shop||'',expiryDate:null,dosage:''});
+  if(price>0){if(!priceHistory[en])priceHistory[en]=[];priceHistory[en].push({price,shop:l.shop||'',date:new Date().toISOString()});}
+  save();renderSidebarNav();
+  toast(ml+' added to '+l.name+' ✓','ok');
+}
+
+function addSelectedToList(){
+  const listId=document.getElementById('catalogListSel').value;
+  if(!listId){toast('Select a list first','err');return;}
+  const l=getList(parseInt(listId));if(!l)return;
+  if(!l.items)l.items=[];
+  let added=0;
+  Object.entries(catalogSel).forEach(([k,d])=>{
+    const exists=l.items.some(i=>(i.nameEN||i.name||'').toLowerCase()===(d.en||'').toLowerCase());
+    if(!exists){
+      const qtyEl=document.getElementById('qty-'+k);
+      const priceEl=document.getElementById('price-'+k);
+      const unitEl=document.getElementById('unit-'+k);
+      const priEl=document.getElementById('pri-'+k);
+      const qty=parseFloat(qtyEl?qtyEl.value:d.qty||1)||1;
+      const price=parseFloat(priceEl?priceEl.value:d.price||0)||0;
+      const unit=unitEl?unitEl.value:d.unit||'pcs';
+      const pri=priEl?priEl.value:d.pri||'medium';
+      l.items.push({id:Date.now()+Math.random(),name:d.en,nameEN:d.en,nameML:d.ml,qty,unit,cat:d.cat,subCat:d.sub||'',pri,price,note:'',bought:false,recur:false,image:null,store:l.shop||'',expiryDate:null,dosage:''});
+      if(price>0){if(!priceHistory[d.en])priceHistory[d.en]=[];priceHistory[d.en].push({price,shop:l.shop||'',date:new Date().toISOString()});}
+      added++;
+    }
+  });
+  save();
+  catalogSel={};renderCatalog();updateAddBar();renderSidebarNav();
+  toast('Added '+added+' items to '+l.name+' ✓','ok');
+}
+
+// ══════════════════════════════════════════════
+//  OVERVIEW
+// ══════════════════════════════════════════════
+function renderOverview(){
+  checkRecurring();checkExpiry();
+  const allItems=lists.flatMap(l=>l.items||[]);
+  const bought=allItems.filter(i=>i.bought).length;
+  const est=allItems.reduce((s,i)=>s+(parseFloat(i.price)||0)*(parseFloat(i.qty)||1),0);
+  document.getElementById('st1').textContent=lists.length;
+  document.getElementById('st2').textContent=allItems.length-bought;
+  document.getElementById('st3').textContent=bought;
+  document.getElementById('st4').textContent=fmt(est);
+  const expCount=getExpiringItems().length;
+  if(expCount){
+    document.getElementById('expiryBanner').innerHTML=`<div style="background:var(--red-d);border:1.5px solid var(--red);border-radius:var(--r);padding:11px 15px;margin-bottom:14px;display:flex;align-items:center;gap:10px;"><span style="font-size:20px">⚠️</span><div><div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:2px">${expCount} medicine(s) expiring soon!</div><div style="font-size:11px;color:var(--text2)">${getExpiringItems().map(x=>(x.item.nameML||x.item.name)+' — '+fmtD(x.item.expiryDate)).join(' · ')}</div></div></div>`;
+  } else document.getElementById('expiryBanner').innerHTML='';
+  renderSidebarNav();
+  const grid=document.getElementById('listsGrid');
+  grid.innerHTML=lists.map(l=>{
+    const items=l.items||[];
+    const b=items.filter(i=>i.bought).length,tot=items.length;
+    const pct=tot?Math.round(b/tot*100):0;
+    const budget=parseFloat(l.budget)||0;
+    const spent=items.filter(i=>i.bought).reduce((s,i)=>s+(parseFloat(i.price)||0)*(parseFloat(i.qty)||1),0);
+    const est2=items.reduce((s,i)=>s+(parseFloat(i.price)||0)*(parseFloat(i.qty)||1),0);
+    return '<div class="lc" onclick="go(\'detail\','+l.id+')" style="border-top-color:'+l.color+'">'
+      +'<div class="lc-hd"><div class="lc-name">'+l.name+'</div><div class="lc-a"><button class="ab e" onclick="event.stopPropagation();editList('+l.id+')">✏️</button><button class="ab d" onclick="event.stopPropagation();deleteList('+l.id+')">🗑</button></div></div>'
+      +(l.shop?'<div class="lc-shop">🏪 '+l.shop+'</div>':'')
+      +'<div style="font-size:11px;color:var(--text2);margin-bottom:7px;display:flex;gap:10px"><span>📦 <b>'+tot+'</b></span><span>✅ <b>'+b+'</b></span><span>⏳ <b>'+(tot-b)+'</b></span></div>'
+      +'<div class="lc-prog"><div class="lc-fill" style="width:'+pct+'%;background:'+l.color+'"></div></div>'
+      +'<div class="lc-ft"><span>'+pct+'% done</span><span style="font-family:\'DM Mono\',monospace;font-size:11px;font-weight:600;color:'+l.color+'">'+(budget?fmt(spent)+' / '+fmt(budget):'Est: '+fmt(est2))+'</span></div>'
+    +'</div>';
+  }).join('')+'<div class="add-lc" onclick="openListModal()"><span>＋</span><p>New List</p></div>';
+}
+
+// ══════════════════════════════════════════════
+//  LIST DETAIL
+// ══════════════════════════════════════════════
+function renderDetail(listId){
+  const l=getList(listId);if(!l)return;
+  const items=l.items||[];
+  document.getElementById('dDot').style.background=l.color||'#3b6ef5';
+  document.getElementById('dTitle').textContent=l.name;
+  document.getElementById('dMeta').innerHTML=(l.shop?'🏪 '+l.shop+' &nbsp;·&nbsp; ':'')+items.length+' items &nbsp;·&nbsp; '+items.filter(i=>i.bought).length+' bought';
+
+  // Budget strip
+  const bought=items.filter(i=>i.bought);
+  const spent=bought.reduce((s,i)=>s+(parseFloat(i.price)||0)*(parseFloat(i.qty)||1),0);
+  const totalEst=items.reduce((s,i)=>s+(parseFloat(i.price)||0)*(parseFloat(i.qty)||1),0);
+  const budget=parseFloat(l.budget)||0;
+  const pct=budget?Math.min(Math.round(spent/budget*100),100):0;
+  const col=pct>90?'var(--red)':pct>70?'var(--amber)':'var(--green)';
+  let sHTML='<div class="bs-s"><div class="bs-v blue">'+items.length+'</div><div class="bs-l">Items</div></div><div class="bs-div"></div>'
+    +'<div class="bs-s"><div class="bs-v amber">'+(items.length-bought.length)+'</div><div class="bs-l">Pending</div></div><div class="bs-div"></div>'
+    +'<div class="bs-s"><div class="bs-v green">'+bought.length+'</div><div class="bs-l">Bought</div></div><div class="bs-div"></div>';
+  if(budget) sHTML+='<div class="bs-bar"><div class="bs-bl"><span>Budget: '+fmt(budget)+'</span><span style="color:'+col+'">'+fmt(spent)+' spent</span></div><div class="bs-trk"><div class="bs-fill" style="width:'+pct+'%;background:'+col+'"></div></div></div><div class="bs-div"></div><div class="bs-s"><div class="bs-v" style="color:'+col+'">'+fmt(Math.max(0,budget-spent))+'</div><div class="bs-l">Left</div></div>';
+  else sHTML+='<div class="bs-s"><div class="bs-v purple">'+fmt(totalEst)+'</div><div class="bs-l">Est Total</div></div>';
+  document.getElementById('bstrip').innerHTML=sHTML;
+
+  // Bills
+  renderBills(l);
+
+  // Filter
+  const q=(document.getElementById('itemSearch').value||'').toLowerCase();
+  let filtered=items.filter(i=>{
+    if(itemFilter==='pending')  return !i.bought;
+    if(itemFilter==='bought')   return i.bought;
+    if(itemFilter==='high')     return i.pri==='high';
+    if(itemFilter==='medicine') return i.cat==='Medicine';
+    if(q) return (i.nameEN||i.name||'').toLowerCase().includes(q)||(i.nameML||'').toLowerCase().includes(q);
+    return true;
+  });
+
+  if(!filtered.length){
+    document.getElementById('itemsContainer').innerHTML='<div class="empty-s"><div class="ei">🛒</div><p>No items. Go to Item Catalog to add items!</p></div>';
+    return;
+  }
+
+  const groups={};
+  filtered.forEach(i=>{ const k=i.cat||'Other';if(!groups[k])groups[k]=[];groups[k].push(i); });
+
+  document.getElementById('itemsContainer').innerHTML=Object.entries(groups).map(([cat,its])=>'<div class="cat-group">'
+    +'<div class="cg-hd"><div class="cg-lbl">'+(CAT_E[cat]||'📦')+' '+cat+'</div><div class="cg-cnt">'+its.filter(i=>i.bought).length+'/'+its.length+'</div></div>'
+    +'<div class="items-stack">'+its.map(i=>itemRowHTML(i,l)).join('')+'</div>'
+  +'</div>').join('');
+}
+
+function itemRowHTML(item, list){
+  const tp=(parseFloat(item.price)||0)*(parseFloat(item.qty)||1);
+  const expSoon=item.expiryDate&&Math.ceil((new Date(item.expiryDate)-new Date())/864e5)<=30;
+  return '<div class="item-row '+(item.bought?'bought':'')+(expSoon?' expiry-soon':'')+'">'
+    +'<div class="i-chk '+(item.bought?'done':'')+'" onclick="toggleItem('+list.id+','+item.id+')"></div>'
+    +'<div class="i-body">'
+      +'<div class="in">'+(item.nameEN||item.name||'')+'</div>'
+      +(item.nameML?'<div class="iml">'+item.nameML+'</div>':'')
+      +'<div class="i-tags">'
+        +'<span class="t cat">'+(CAT_E[item.cat]||'📦')+' '+item.cat+'</span>'
+        +(item.subCat?'<span class="t sub">'+item.subCat+'</span>':'')
+        +'<span class="t qty">'+item.qty+' '+item.unit+'</span>'
+        +'<span class="t pri-'+(item.pri||'medium')+'">'+(item.pri||'medium')+'</span>'
+        +(item.recur?'<span class="t recur">🔁 '+item.recurInterval+'d</span>':'')
+        +(item.expiryDate?expSoon?'<span class="t exp">⚠️ Exp: '+fmtD(item.expiryDate)+'</span>':'<span class="t exp-ok">Exp: '+fmtD(item.expiryDate)+'</span>':'')
+        +(item.note?'<span class="t" style="background:var(--s1);color:var(--text2)">📝 '+item.note+'</span>':'')
+        +(item.store&&item.store!==list.shop?'<span class="t" style="background:var(--s1);color:var(--text2)">🏪 '+item.store+'</span>':'')
+      +'</div>'
+    +'</div>'
+    +(item.image?'<img class="i-img" src="'+item.image+'" onclick="viewImg(\''+item.image+'\')" alt=""/>':'')
+    +(tp?'<div class="i-price">'+fmt(tp)+'</div>':'')
+    +'<div class="ia">'
+      +'<button class="ab e" onclick="editItem('+list.id+','+item.id+')">✏️</button>'
+      +'<button class="ab d" onclick="deleteItem('+list.id+','+item.id+')">🗑</button>'
+    +'</div>'
+  +'</div>';
+}
+
+function toggleItem(listId, itemId){
+  const l=getList(listId);if(!l)return;
+  const item=l.items.find(i=>i.id===itemId);if(!item)return;
+  item.bought=!item.bought;
+  if(item.bought&&item.recur){ item.lastBought=new Date().toISOString();item.nextDue=new Date(Date.now()+parseInt(item.recurInterval||7)*864e5).toISOString(); }
+  save();renderDetail(listId);
+  toast(item.bought?'✓ Bought! · വാങ്ങി!':'Unmarked','ok');
+}
+
+function setChip(btn,val){
+  document.querySelectorAll('.filter-row .chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');itemFilter=val;
+  if(activeListId)renderDetail(activeListId);
+}
+
+// ══════════════════════════════════════════════
+//  BILLS
+// ══════════════════════════════════════════════
+function renderBills(l){
+  const bills=l.bills||[];
+  const grid=document.getElementById('billsGrid');
+  grid.innerHTML=bills.map((b,i)=>{
+    if(b.type==='image'){
+      return '<div class="bill-thumb"><img class="bill-img" src="'+b.data+'" onclick="viewImg(\''+b.data+'\')" alt="Bill"/><div class="bill-del" onclick="deleteBill('+i+')">✕</div><div class="bill-meta">'+b.name+'</div></div>';
+    } else {
+      return '<div class="bill-thumb"><div class="bill-pdf" onclick="downloadBill('+i+')"><span style="font-size:22px">📄</span>PDF</div><div class="bill-del" onclick="deleteBill('+i+')">✕</div><div class="bill-meta">'+b.name+'</div></div>';
+    }
+  }).join('')+'<label class="upload-bill-btn"><span>📷</span><div style="font-size:9px;text-align:center">Add Bill</div><input type="file" accept="image/*,.pdf" multiple style="display:none" onchange="uploadBills(event)"/></label>';
+}
+
+function uploadBills(event){
+  const l=getList(activeListId);if(!l)return;
+  if(!l.bills)l.bills=[];
+  const files=Array.from(event.target.files);
+  let processed=0;
+  files.forEach(file=>{
+    if(file.size>8*1024*1024){toast('File too large (max 8MB)','err');return;}
+    const reader=new FileReader();
+    reader.onload=function(e){
+      if(file.type.startsWith('image/')){
+        const img=new Image();
+        img.onload=function(){
+          const canvas=document.createElement('canvas');
+          const MAX=800;let w=img.width,h=img.height;
+          if(w>h&&w>MAX){h=h*MAX/w;w=MAX;}else if(h>MAX){w=w*MAX/h;h=MAX;}
+          canvas.width=w;canvas.height=h;
+          canvas.getContext('2d').drawImage(img,0,0,w,h);
+          const data=canvas.toDataURL('image/jpeg',.8);
+          l.bills.push({type:'image',data,name:file.name,date:new Date().toISOString()});
+          processed++;
+          if(processed===files.length){save();renderBills(l);toast('Bill(s) uploaded ✓','ok');}
+        };
+        img.src=e.target.result;
+      } else {
+        l.bills.push({type:'pdf',data:e.target.result,name:file.name,date:new Date().toISOString()});
+        processed++;
+        if(processed===files.length){save();renderBills(l);toast('Bill(s) uploaded ✓','ok');}
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+  event.target.value='';
+}
+
+function deleteBill(idx){
+  const l=getList(activeListId);if(!l)return;
+  if(!confirm('Delete this bill?'))return;
+  l.bills.splice(idx,1);save();renderBills(l);toast('Bill deleted','err');
+}
+function downloadBill(idx){
+  const l=getList(activeListId);if(!l)return;
+  const b=l.bills[idx];if(!b)return;
+  const a=document.createElement('a');a.href=b.data;a.download=b.name;a.click();
+}
+
+// ══════════════════════════════════════════════
+//  LIST MODAL
+// ══════════════════════════════════════════════
+function renderCP(sel){ document.getElementById('listCP').innerHTML=LIST_COLORS.map(c=>'<div class="cpd'+(c===sel?' sel':'')+'" style="background:'+c+'" onclick="selColor=\''+c+'\';renderCP(\''+c+'\')"></div>').join(''); }
+function openListModal(){ editListId=null;selColor='#3b6ef5';document.getElementById('listMT').textContent='New List';document.getElementById('listBtn').textContent='Create List';document.getElementById('lName').value='';document.getElementById('lShop').value='';document.getElementById('lBudget').value='';renderCP(selColor);document.getElementById('listOv').classList.add('open');setTimeout(()=>document.getElementById('lName').focus(),200); }
+function closeListModal(){ document.getElementById('listOv').classList.remove('open'); }
+function editList(id){ const l=getList(id);if(!l)return;editListId=id;selColor=l.color||'#3b6ef5';document.getElementById('listMT').textContent='Edit List';document.getElementById('listBtn').textContent='Save';document.getElementById('lName').value=l.name;document.getElementById('lShop').value=l.shop||'';document.getElementById('lBudget').value=l.budget||'';renderCP(selColor);document.getElementById('listOv').classList.add('open'); }
+function saveList(){
+  const name=(document.getElementById('lName').value||'').trim();
+  if(!name){toast('Enter a list name','err');return;}
+  if(editListId){ const i=lists.findIndex(l=>l.id===editListId);lists[i]={...lists[i],name,shop:(document.getElementById('lShop').value||'').trim(),budget:parseFloat(document.getElementById('lBudget').value)||0,color:selColor};toast('Updated ✓','info'); }
+  else{ lists.push({id:Date.now(),name,shop:(document.getElementById('lShop').value||'').trim(),budget:parseFloat(document.getElementById('lBudget').value)||0,color:selColor,items:[],bills:[]});toast('List created ✓','ok'); }
+  save();closeListModal();
+  const ap=document.querySelector('.page.active');
+  if(ap.id==='pg-overview') renderOverview();
+  else if(ap.id==='pg-detail') renderDetail(activeListId);
+  else if(ap.id==='pg-catalog') updateCatalogListSelector();
+  renderSidebarNav();
+}
+function deleteList(id){ if(!confirm('Delete this list?'))return;lists=lists.filter(l=>l.id!==id);save();toast('Deleted','err');go('overview'); }
+
+// ══════════════════════════════════════════════
+//  ITEM EDIT MODAL
+// ══════════════════════════════════════════════
+function loadSubCat(){
+  const cat=document.getElementById('iCat').value;
+  const opts=SUBCAT_MAP[cat]||[];
+  document.getElementById('iSubCat').innerHTML='<option value="">— None —</option>'+opts.map(o=>'<option>'+o+'</option>').join('');
+  document.getElementById('medSection').style.display=cat==='Medicine'?'block':'none';
+}
+
+function openItemModal(){
+  editItemId=null;pendingImg=null;
+  document.getElementById('itemMT').textContent='Add Item';
+  document.getElementById('itemBtn').textContent='Add Item';
+  ['iEN','iML','iNote','iStore'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('iQty').value=1;document.getElementById('iUnit').value='pcs';
+  document.getElementById('iCat').value='Groceries';document.getElementById('iPri').value='medium';
+  document.getElementById('iPrice').value='';document.getElementById('iExpiry').value='';document.getElementById('iDosage').value='';
+  document.getElementById('iRecur').checked=false;document.getElementById('recurWrap').style.display='none';
+  document.getElementById('imgPrevWrap').style.display='none';document.getElementById('clearImgBtn').style.display='none';
+  loadSubCat();
+  document.getElementById('itemOv').classList.add('open');
+  setTimeout(()=>document.getElementById('iEN').focus(),200);
+}
+function closeItemModal(){ document.getElementById('itemOv').classList.remove('open'); }
+
+function editItem(listId,itemId){
+  const l=getList(listId);if(!l)return;
+  const item=l.items.find(i=>i.id===itemId);if(!item)return;
+  editItemId=itemId;pendingImg=item.image||null;
+  document.getElementById('itemMT').textContent='Edit Item';
+  document.getElementById('itemBtn').textContent='Save Changes';
+  document.getElementById('iEN').value=item.nameEN||item.name||'';
+  document.getElementById('iML').value=item.nameML||'';
+  document.getElementById('iQty').value=item.qty||1;
+  document.getElementById('iUnit').value=item.unit||'pcs';
+  document.getElementById('iCat').value=item.cat||'Groceries';
+  loadSubCat();
+  if(item.subCat) document.getElementById('iSubCat').value=item.subCat;
+  document.getElementById('iPri').value=item.pri||'medium';
+  document.getElementById('iPrice').value=item.price||'';
+  document.getElementById('iNote').value=item.note||'';
+  document.getElementById('iStore').value=item.store||'';
+  document.getElementById('iExpiry').value=item.expiryDate||'';
+  document.getElementById('iDosage').value=item.dosage||'';
+  document.getElementById('iRecur').checked=!!item.recur;
+  document.getElementById('recurWrap').style.display=item.recur?'block':'none';
+  document.getElementById('iRecurI').value=item.recurInterval||7;
+  if(pendingImg){document.getElementById('imgPrev').src=pendingImg;document.getElementById('imgPrevWrap').style.display='block';document.getElementById('clearImgBtn').style.display='inline-flex';}
+  else{document.getElementById('imgPrevWrap').style.display='none';document.getElementById('clearImgBtn').style.display='none';}
+  document.getElementById('itemOv').classList.add('open');
+}
+
+function saveItem(){
+  const nameEN=(document.getElementById('iEN').value||'').trim();
+  if(!nameEN){toast('Enter item name','err');return;}
+  if(!activeListId)return;
+  const l=getList(activeListId);if(!l)return;
+  if(!l.items)l.items=[];
+  const price=parseFloat(document.getElementById('iPrice').value)||0;
+  const store=(document.getElementById('iStore').value||'').trim();
+  const isRecur=document.getElementById('iRecur').checked;
+  const obj={
+    id:editItemId||Date.now(),
+    name:nameEN,nameEN,nameML:(document.getElementById('iML').value||'').trim(),
+    qty:parseFloat(document.getElementById('iQty').value)||1,
+    unit:document.getElementById('iUnit').value,
+    cat:document.getElementById('iCat').value,
+    subCat:document.getElementById('iSubCat').value,
+    pri:document.getElementById('iPri').value,
+    price,store,
+    note:(document.getElementById('iNote').value||'').trim(),
+    expiryDate:document.getElementById('iExpiry').value||null,
+    dosage:(document.getElementById('iDosage').value||'').trim(),
+    bought:editItemId?(l.items.find(i=>i.id===editItemId)||{}).bought||false:false,
+    recur:isRecur,
+    recurInterval:isRecur?parseInt(document.getElementById('iRecurI').value)||7:null,
+    nextDue:isRecur?new Date(Date.now()+(parseInt(document.getElementById('iRecurI').value)||7)*864e5).toISOString():null,
+    image:pendingImg,
+  };
+  if(price>0){if(!priceHistory[nameEN])priceHistory[nameEN]=[];priceHistory[nameEN].push({price,shop:store||l.shop||'',date:new Date().toISOString()});}
+  if(editItemId){ const i=l.items.findIndex(x=>x.id===editItemId);l.items[i]={...l.items[i],...obj};toast('Updated ✓','info'); }
+  else{ l.items.push(obj);toast('Added ✓','ok'); }
+  save();closeItemModal();renderDetail(activeListId);
+  renderSidebarNav();
+}
+function deleteItem(listId,itemId){ const l=getList(listId);if(!l)return;l.items=l.items.filter(i=>i.id!==itemId);save();renderDetail(listId);toast('Deleted','err'); }
+
+function attachImg(event){
+  const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const img=new Image();
+    img.onload=function(){
+      const canvas=document.createElement('canvas');
+      const MAX=500;let w=img.width,h=img.height;
+      if(w>h&&w>MAX){h=h*MAX/w;w=MAX;}else if(h>MAX){w=w*MAX/h;h=MAX;}
+      canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);
+      pendingImg=canvas.toDataURL('image/jpeg',.75);
+      document.getElementById('imgPrev').src=pendingImg;
+      document.getElementById('imgPrevWrap').style.display='block';
+      document.getElementById('clearImgBtn').style.display='inline-flex';
+      toast('Photo attached ✓','ok');
+    };img.src=e.target.result;
+  };reader.readAsDataURL(file);event.target.value='';
+}
+function clearImg(){ pendingImg=null;document.getElementById('imgPrevWrap').style.display='none';document.getElementById('clearImgBtn').style.display='none'; }
+
+// ══════════════════════════════════════════════
+//  RECURRING
+// ══════════════════════════════════════════════
+function checkRecurring(){
+  const now=new Date();
+  lists.forEach(l=>(l.items||[]).forEach(item=>{
+    if(item.recur&&item.bought&&item.nextDue&&new Date(item.nextDue)<=now){
+      item.bought=false;item.nextDue=new Date(Date.now()+parseInt(item.recurInterval||7)*864e5).toISOString();
+    }
+  }));
+  save();
+  document.getElementById('sb2').textContent=lists.reduce((s,l)=>(l.items||[]).filter(i=>i.recur).length+s,0);
+}
+function renderRecurringPage(){
+  checkRecurring();
+  const all=[];
+  lists.forEach(l=>(l.items||[]).filter(i=>i.recur).forEach(item=>all.push({item,list:l})));
+  const grid=document.getElementById('recurGrid');
+  if(!all.length){grid.innerHTML='<div class="empty-s"><div class="ei">🔁</div><p>No recurring items. Edit an item and enable Recurring.</p></div>';return;}
+  grid.innerHTML=all.map(({item,list})=>{
+    const isDue=!item.bought;
+    const nextDue=item.nextDue?new Date(item.nextDue):null;
+    const daysLeft=nextDue?Math.max(0,Math.ceil((nextDue-new Date())/864e5)):0;
+    return '<div style="background:var(--white);border:1px solid var(--border);border-left:4px solid var(--amber);border-radius:var(--r);padding:14px;">'
+      +'<div style="font-size:13.5px;font-weight:700;color:var(--text)">'+(item.nameEN||item.name)+'</div>'
+      +(item.nameML?'<div style="font-size:11px;color:var(--text2)">'+item.nameML+'</div>':'')
+      +'<div style="font-size:11px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:99px;background:var(--amber-d);color:var(--amber);margin:6px 0">Every '+item.recurInterval+' days · '+list.name+'</div>'
+      +'<div style="font-size:11px;margin-bottom:9px">'+(isDue?'🔴 Due now — restock!':'🟢 Next due in '+daysLeft+' days')+'</div>'
+      +'<div style="display:flex;gap:6px">'
+        +(isDue?'<button onclick="recurBuy('+list.id+','+item.id+')" style="flex:1;padding:7px;border-radius:var(--r-sm);font-size:11px;font-weight:700;background:var(--green-l);border:none;color:#fff;cursor:pointer;">✓ Bought</button>':'')
+        +'<button onclick="go(\'detail\','+list.id+')" style="flex:1;padding:7px;border-radius:var(--r-sm);font-size:11px;font-weight:600;background:var(--s1);border:1px solid var(--border);color:var(--text2);cursor:pointer;">View</button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+function recurBuy(listId,itemId){
+  const l=getList(listId);if(!l)return;
+  const item=l.items.find(i=>i.id===itemId);if(!item)return;
+  item.bought=true;item.lastBought=new Date().toISOString();
+  item.nextDue=new Date(Date.now()+parseInt(item.recurInterval||7)*864e5).toISOString();
+  save();renderRecurringPage();toast('Marked bought ✓','ok');
+}
+
+// ══════════════════════════════════════════════
+//  EXPIRY
+// ══════════════════════════════════════════════
+function isExpiringSoon(item){ if(!item.expiryDate)return false;const d=Math.ceil((new Date(item.expiryDate)-new Date())/864e5);return d>=0&&d<=30; }
+function isExpired(item){ return item.expiryDate&&new Date(item.expiryDate)<new Date(); }
+function getExpiringItems(){ const r=[];lists.forEach(l=>(l.items||[]).forEach(item=>{if(item.expiryDate&&isExpiringSoon(item))r.push({item,list:l});}));return r; }
+function checkExpiry(){ document.getElementById('sb3').textContent=getExpiringItems().length; }
+function renderExpiryPage(){
+  const all=[];lists.forEach(l=>(l.items||[]).filter(i=>i.expiryDate).forEach(item=>all.push({item,list:l})));
+  all.sort((a,b)=>new Date(a.item.expiryDate)-new Date(b.item.expiryDate));
+  const el=document.getElementById('expiryContent');
+  if(!all.length){el.innerHTML='<div class="empty-s"><div class="ei">💊</div><p>No expiry dates set. Add medicines and set expiry dates.</p></div>';return;}
+  el.innerHTML=all.map(({item,list})=>{
+    const days=Math.ceil((new Date(item.expiryDate)-new Date())/864e5);
+    const expired=days<0,soon=days>=0&&days<=30;
+    const col=expired?'var(--red)':soon?'var(--amber)':'var(--green)';
+    const label=expired?'⛔ EXPIRED!':soon?'⚠️ Expires in '+days+' days':'✓ '+days+' days left';
+    return '<div style="background:var(--white);border:1.5px solid '+(expired?'var(--red)':soon?'var(--amber)':'var(--border)')+'  ;border-radius:var(--r);padding:13px 15px;margin-bottom:7px;display:flex;align-items:center;gap:11px">'
+      +'<div style="font-size:22px">💊</div>'
+      +'<div style="flex:1">'
+        +'<div style="font-size:13px;font-weight:700">'+(item.nameEN||item.name)+(item.nameML?' · '+item.nameML:'')+'</div>'
+        +'<div style="font-size:11px;color:var(--text2)">'+list.name+(list.shop?' · 🏪 '+list.shop:'')+(item.dosage?' · '+item.dosage:'')+'</div>'
+      +'</div>'
+      +'<div style="text-align:right"><div style="font-size:12px;font-weight:700;color:'+col+'">'+label+'</div><div style="font-size:10px;color:var(--text3);font-family:\'DM Mono\',monospace">'+fmtD(item.expiryDate)+'</div></div>'
+    +'</div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+//  PRICE HISTORY
+// ══════════════════════════════════════════════
+function renderPricePage(){
+  const keys=Object.keys(priceHistory).filter(k=>priceHistory[k]&&priceHistory[k].length>0);
+  const el=document.getElementById('pricesContent');
+  if(!keys.length){el.innerHTML='<div class="empty-s"><div class="ei">📊</div><p>No price history yet. Add items with prices to start tracking.</p></div>';return;}
+  el.innerHTML=keys.map(name=>{
+    const hist=priceHistory[name];
+    const prices=hist.map(h=>h.price);
+    const minP=Math.min(...prices),maxP=Math.max(...prices),lastP=prices[prices.length-1];
+    const shops=[...new Set(hist.map(h=>h.shop).filter(Boolean))];
+    const shopBest={};
+    hist.forEach(h=>{ if(h.shop){if(!shopBest[h.shop]||h.price<shopBest[h.shop].price)shopBest[h.shop]={price:h.price,date:h.date};} });
+    return '<div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:15px;margin-bottom:10px">'
+      +'<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:8px">📦 '+name+' <span style="margin-left:auto;font-family:\'DM Mono\',monospace;font-size:12px;color:var(--blue)">Last: '+fmt(lastP)+'</span></div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">'
+        +'<div style="flex:1;min-width:80px;background:var(--green-d);border-radius:8px;padding:8px;text-align:center"><div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Best</div><div style="font-family:\'DM Mono\',monospace;font-size:15px;font-weight:700;color:var(--green)">'+fmt(minP)+'</div></div>'
+        +'<div style="flex:1;min-width:80px;background:var(--red-d);border-radius:8px;padding:8px;text-align:center"><div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Highest</div><div style="font-family:\'DM Mono\',monospace;font-size:15px;font-weight:700;color:var(--red)">'+fmt(maxP)+'</div></div>'
+        +'<div style="flex:1;min-width:80px;background:var(--blue-d);border-radius:8px;padding:8px;text-align:center"><div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Records</div><div style="font-family:\'DM Mono\',monospace;font-size:15px;font-weight:700;color:var(--blue)">'+hist.length+'</div></div>'
+      +'</div>'
+      +(shops.length>1?'<div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px">Store Comparison</div><div style="display:flex;flex-direction:column;gap:3px;margin-bottom:9px">'
+        +Object.entries(shopBest).sort(([,a],[,b])=>a.price-b.price).map(([shop,data],i)=>'<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 9px;background:var(--s1);border-radius:6px;font-size:12px"><span>🏪 '+shop+'</span><span style="font-family:\'DM Mono\',monospace;font-weight:700;color:'+(i===0?'var(--green)':'var(--text)')+'">'+fmt(data.price)+'</span><span style="font-size:10px;color:var(--text3)">'+fmtD(data.date)+'</span></div>').join('')
+        +'</div>':'')
+      +'<div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px">Recent History</div>'
+      +'<div style="display:flex;flex-direction:column;gap:2px">'
+        +hist.slice(-5).reverse().map(h=>'<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-bottom:1px solid var(--border2);font-size:12px"><span style="color:var(--text2)">'+fmtD(h.date)+'</span><span style="color:var(--text2)">'+(h.shop?'🏪 '+h.shop:'—')+'</span><span style="font-family:\'DM Mono\',monospace;font-weight:600">'+fmt(h.price)+'</span></div>').join('')
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+//  WHATSAPP
+// ══════════════════════════════════════════════
+function openWAModal(){
+  const l=getList(activeListId);if(!l)return;
+  const items=l.items||[];
+  const pending=items.filter(i=>!i.bought);
+  const bought=items.filter(i=>i.bought);
+  const date=new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  let msg='🛒 *'+l.name+'*\n'+(l.shop?'🏪 _'+l.shop+'_\n':'')+'📅 _'+date+'_\n─────────────────\n\n';
+  if(pending.length){
+    msg+='*TO BUY / വാങ്ങേണ്ടത് ('+pending.length+'):*\n';
+    pending.forEach((item,i)=>{
+      const p=item.pri==='high'?'🔴':item.pri==='low'?'🟢':'🟡';
+      const tp=(parseFloat(item.price)||0)*(parseFloat(item.qty)||1);
+      msg+=''+(i+1)+'. '+p+' '+(item.nameEN||item.name)+(item.nameML?' _('+item.nameML+')_':'')+' — '+item.qty+' '+item.unit+(tp?' (₹'+tp.toLocaleString('en-IN')+')\n':'\n');
+    });
+  }
+  if(bought.length){msg+='\n✅ *BOUGHT ('+bought.length+')*\n';bought.forEach(i=>msg+='☑ _'+(i.nameEN||i.name)+'_\n');}
+  const total=items.reduce((s,i)=>s+(parseFloat(i.price)||0)*(parseFloat(i.qty)||1),0);
+  if(total) msg+='\n─────────────────\n💰 *Est: ₹'+total.toLocaleString('en-IN',{maximumFractionDigits:2})+'*';
+  msg+='\n\n_ShopList Kerala_ 🛒🌴';
+  document.getElementById('waPrev').textContent=msg;
+  document.getElementById('waOv').classList.add('open');
+  window._waMsg=msg;
+}
+function sendWA(){ window.open('https://wa.me/?text='+encodeURIComponent(window._waMsg||''),'_blank'); }
+function copyWA(){ navigator.clipboard.writeText(window._waMsg||'').then(()=>toast('Copied ✓','ok')).catch(()=>{const t=document.createElement('textarea');t.value=window._waMsg;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);toast('Copied!','ok');}); }
+function viewImg(src){ document.getElementById('ivSrc').src=src;document.getElementById('iv').classList.add('open'); }
+
+// ══════════════════════════════════════════════
+//  EXPORT
+// ══════════════════════════════════════════════
+function exportPDF(){
+  const l=getList(activeListId);if(!l)return;
+  const items=l.items||[];
+  const groups={};items.forEach(i=>{ const k=i.cat||'Other';if(!groups[k])groups[k]=[];groups[k].push(i); });
+  const total=items.reduce((s,i)=>s+(parseFloat(i.price)||0)*(parseFloat(i.qty)||1),0);
+  let html=`<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>${l.name}</title><style>body{font-family:'Segoe UI',sans-serif;color:#1a2035;padding:22px;max-width:700px;margin:0 auto;}h1{font-size:20px;color:#3b6ef5;}p{font-size:12px;color:#6b7591;margin-bottom:14px;}.ct{font-size:9px;font-weight:700;color:#b0b8d0;letter-spacing:2px;text-transform:uppercase;margin:11px 0 5px;border-bottom:1px solid #e2e6f0;padding-bottom:3px;}table{width:100%;border-collapse:collapse;font-size:12.5px;}th{text-align:left;padding:7px 9px;background:#f7f8fc;font-size:9px;color:#6b7591;text-transform:uppercase;letter-spacing:1px;}td{padding:7px 9px;border-bottom:1px solid #f0f2f8;}.bought td{text-decoration:line-through;color:#b0b8d0;}.tr{font-weight:700;background:#f0f2f8;}@media print{@page{margin:14mm;}}</style></head><body>`;
+  html+=`<h1>🛒 ${l.name}</h1><p>${l.shop?'🏪 '+l.shop+' · ':''} ${new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})} · ${items.length} items · Est. ₹${total.toLocaleString('en-IN',{maximumFractionDigits:2})}</p>`;
+  Object.entries(groups).forEach(([cat,its])=>{
+    html+=`<div class="ct">${CAT_E[cat]||'📦'} ${cat}</div><table><tr><th>English</th><th>Malayalam</th><th>Qty</th><th>Price</th><th>Note</th></tr>`;
+    its.forEach(i=>{ const tp=(parseFloat(i.price)||0)*(parseFloat(i.qty)||1); html+=`<tr class="${i.bought?'bought':''}"><td>${i.bought?'☑':'☐'} ${i.nameEN||i.name}</td><td>${i.nameML||''}</td><td>${i.qty} ${i.unit}</td><td>${tp?'₹'+tp.toLocaleString('en-IN',{maximumFractionDigits:2}):'-'}</td><td>${i.note||'-'}</td></tr>`; });
+    html+=`</table>`;
+  });
+  html+=`<br><table><tr class="tr"><td colspan="4">Total Estimated</td><td>₹${total.toLocaleString('en-IN',{maximumFractionDigits:2})}</td></tr></table>`;
+  html+=`<script>window.onload=function(){window.print();}<\/script></body></html>`;
+  const w=window.open('','_blank','width=800,height=600');w.document.write(html);w.document.close();
+  toast('PDF ready','ok');
+}
+function exportCSV(){
+  const l=getList(activeListId);if(!l)return;
+  const rows=[['English','Malayalam','Category','Sub-Category','Qty','Unit','Priority','Price','Total','Store','Note','Expiry','Status']];
+  (l.items||[]).forEach(i=>{ const tp=(parseFloat(i.price)||0)*(parseFloat(i.qty)||1); rows.push(['"'+(i.nameEN||i.name)+'"','"'+(i.nameML||'')+'"',i.cat,i.subCat||'',i.qty,i.unit,i.pri,i.price||0,tp,'"'+(i.store||'')+'"','"'+(i.note||'')+'"',i.expiryDate||'',i.bought?'Bought':'Pending']); });
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n'));a.download=(l.name.replace(/\s+/g,'_'))+'.csv';a.click();
+  toast('CSV exported ✓','ok');
+}
+
+// ══════════════════════════════════════════════
+//  SIDEBAR NAV
+// ══════════════════════════════════════════════
+function renderSidebarNav(){
+  document.getElementById('sb1').textContent=lists.length;
+  document.getElementById('sb2').textContent=lists.reduce((s,l)=>(l.items||[]).filter(i=>i.recur).length+s,0);
+  document.getElementById('sb3').textContent=getExpiringItems().length;
+  document.getElementById('listNav').innerHTML=lists.map(l=>{
+    const items=l.items||[];
+    const b=items.filter(i=>i.bought).length;
+    return '<div class="list-ni'+(activeListId===l.id?' active':'')+'" id="lni-'+l.id+'" onclick="go(\'detail\','+l.id+')">'
+      +'<div class="l-dot" style="background:'+l.color+'"></div>'
+      +'<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">'+l.name+'</span>'
+      +'<span class="l-cnt">'+b+'/'+items.length+'</span>'
+    +'</div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+//  CLOSE OVERLAYS
+// ══════════════════════════════════════════════
+['listOv','itemOv','waOv'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('click',function(e){ if(e.target===this)this.classList.remove('open'); });
+});
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+function init(){
+  renderCP(selColor);
+  checkRecurring();checkExpiry();
+  renderOverview();
+  renderSidebarNav();
+}
+init();
+</script>
+</body>
+</html>
